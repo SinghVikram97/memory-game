@@ -4,6 +4,7 @@
 let cardsArray = ['fa-anchor', 'fa-anchor', 'fa-bicycle', 'fa-bolt', 'fa-cube', 'fa-diamond', 'fa-diamond', 'fa-plane', 'fa-leaf', 'fa-bomb', 'fa-leaf', 'fa-bomb', 'fa-bolt', 'fa-bicycle', 'fa-plane', 'fa-cube'];
 let movesSpan = document.getElementById('score');
 let restartBtn = document.getElementById('repeat');
+let totalMatch=0;
 
 /*
  * Display the cards on the page
@@ -89,6 +90,15 @@ function clickCards() {
                             card.classList.add('match', 'animated', 'bounce');
                         })
                         openCards = [];
+                        totalMatch++;
+                        if(totalMatch==8){
+                            // Get time
+                            let time=document.getElementById("timer").innerHTML
+                            alert(`Congrats you have completed the game in ${time} time and ${moves} moves`);
+                            setTimeout(() => {
+                                gameStart();
+                            }, 4000);
+                        }
                     }
                     // Remove/hide
                     else {
