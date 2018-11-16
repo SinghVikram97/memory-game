@@ -12,7 +12,8 @@
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    var currentIndex = array.length,
+        temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -37,16 +38,26 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 // Can't open more than 2 cards at a time
-let openCards=[];
-let allCards=document.querySelectorAll('.card');
+let openCards = [];
+let allCards = document.querySelectorAll('.card');
 allCards.forEach(function (card) {
-    card.addEventListener('click',function (event) {
-        if(openCards.length<2){
-          openCards.push(card);
-          card.classList.add('show','open');
+
+    card.addEventListener('click', function (event) {
+        openCards.push(card);
+        if(openCards.length>2){
+            return;
         }
-        else{
-            // Don't do anything
-        }        
+        card.classList.add('open','show');
+        console.log("Card no: ",openCards.length)
+        
+        // Close if 2 cards open simultaneously 
+        if (openCards.length === 2) {
+            setTimeout(() => {
+                openCards.forEach(function (card) {
+                    card.classList.remove('open', 'show');
+                })
+                openCards = [];
+            }, 1000);
+        }
     })
 })
