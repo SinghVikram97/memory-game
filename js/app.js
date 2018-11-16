@@ -8,7 +8,17 @@ let cardsArray = ['fa-anchor', 'fa-anchor', 'fa-bicycle', 'fa-bolt', 'fa-cube', 
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
-
+let deck=document.getElementById('deck');
+let cardHTML='';
+function gameStart(){
+    shuffle(cardsArray);
+    cardsArray.forEach(function(card){
+        cardHTML+= `<li class="card">`+
+            `<i class="fa ${card}">`+`</i>`+`</li>`
+    })
+    deck.innerHTML=cardHTML;
+}
+gameStart();
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length,
@@ -39,6 +49,7 @@ function shuffle(array) {
 // Can't open more than 2 cards at a time
 let openCards = [];
 let allCards = document.querySelectorAll('.card');
+console.log(allCards);
 allCards.forEach(function (card) {
 
     card.addEventListener('click', function (event) {
