@@ -1,8 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
-
-
+let cardsArray = ['fa-anchor', 'fa-anchor', 'fa-bicycle', 'fa-bolt', 'fa-cube', 'fa-diamond', 'fa-diamond', 'fa-plane', 'fa-leaf', 'fa-bomb', 'fa-leaf', 'fa-bomb', 'fa-bolt', 'fa-bicycle', 'fa-plane', 'fa-cube'];
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -43,21 +42,25 @@ let allCards = document.querySelectorAll('.card');
 allCards.forEach(function (card) {
 
     card.addEventListener('click', function (event) {
-        openCards.push(card);
-        if(openCards.length>2){
-            return;
+
+       if (!(card.classList.contains('open')) && !(card.classList.contains('show'))) {
+            if(openCards.length+1>2){
+                return;
+            }
+            openCards.push(card);
+            card.classList.add('open', 'show');
+            console.log("Card no: ", openCards.length)
+
+            // Close if 2 cards open simultaneously 
+            if (openCards.length === 2) {
+                setTimeout(() => {
+                    openCards.forEach(function (card) {
+                        card.classList.remove('open', 'show');
+                    })
+                    openCards = [];
+                }, 1000);
+            }
         }
-        card.classList.add('open','show');
-        console.log("Card no: ",openCards.length)
-        
-        // Close if 2 cards open simultaneously 
-        if (openCards.length === 2) {
-            setTimeout(() => {
-                openCards.forEach(function (card) {
-                    card.classList.remove('open', 'show');
-                })
-                openCards = [];
-            }, 1000);
-        }
+
     })
 })
