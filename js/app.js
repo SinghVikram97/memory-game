@@ -13,7 +13,7 @@ let cardHTML='';
 function gameStart(){
     shuffle(cardsArray);
     cardsArray.forEach(function(card){
-        cardHTML+= `<li class="card">`+
+        cardHTML+= `<li class="card" data-card="${card}">`+
             `<i class="fa ${card}">`+`</i>`+`</li>`
     })
     deck.innerHTML=cardHTML;
@@ -50,6 +50,7 @@ function shuffle(array) {
 let openCards = [];
 let allCards = document.querySelectorAll('.card');
 console.log(allCards);
+
 allCards.forEach(function (card) {
 
     card.addEventListener('click', function (event) {
@@ -62,14 +63,30 @@ allCards.forEach(function (card) {
             card.classList.add('open', 'show');
             console.log("Card no: ", openCards.length)
 
+
             // Close if 2 cards open simultaneously 
             if (openCards.length === 2) {
-                setTimeout(() => {
+
+                // Check if there is a match
+                let firstCard=openCards[0].dataset.card;
+                let secondCard=openCards[1].dataset.card;
+                if(firstCard==secondCard){
+                    // console.log('It is a match');
                     openCards.forEach(function (card) {
                         card.classList.remove('open', 'show');
+                        card.classList.add('match','animated','bounce');
                     })
-                    openCards = [];
-                }, 1000);
+                    openCards=[];
+                }
+                // Remove/hide
+                else{
+                    setTimeout(() => {
+                        openCards.forEach(function (card) {
+                            card.classList.remove('open', 'show');
+                        })
+                        openCards = [];
+                    }, 1000);
+                }
             }
         }
 
