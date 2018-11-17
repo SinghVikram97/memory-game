@@ -5,7 +5,8 @@ let cardsArray = ['fa-anchor', 'fa-anchor', 'fa-bicycle', 'fa-bolt', 'fa-cube', 
 let movesSpan = document.getElementById('score');
 let restartBtn = document.getElementById('repeat');
 let totalMatch=0;
-
+let stars=document.getElementsByClassName('fa-star');
+console.log(stars);
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -79,6 +80,20 @@ function clickCards() {
                 if (openCards.length === 2) {
 
                     moves++;
+                    if(moves>20){
+                        // Remove a star
+                        for (let i = 2; i < stars.length; i++) {
+                            stars[i].classList.remove('outline');
+                            stars[i].classList.add('fa-inverse');
+                        }
+                    }
+                    else if(moves>50){
+                        // Remove 2 stars
+                        for(let i=1;i<stars.length;i++){
+                            stars[i].classList.remove('outline');
+                            stars[i].classList.add('fa-inverse');
+                        }
+                    }
                     movesSpan.innerText = moves;
                     // Check if there is a match
                     let firstCard = openCards[0].dataset.card;
@@ -93,11 +108,38 @@ function clickCards() {
                         totalMatch++;
                         if(totalMatch==8){
                             // Get time
-                            let time=document.getElementById("timer").innerHTML
-                            alert(`Congrats you have completed the game in ${time} time and ${moves} moves`);
-                            setTimeout(() => {
-                                gameStart();
-                            }, 4000);
+                            clearInterval(timerVar);
+                            let time=document.getElementById("timer").innerHTML;
+                            let timeArray=time.split(':')
+                            swal(`Congrats you finished the game in ${timeArray[0]} hours ${timeArray[1]} minutes ${timeArray[2]} seconds and ${moves} moves \n Do you want to continue`, {
+                                buttons: {
+                                  Yes:{
+                                      text:"Yes",
+                                      value:"Yes"
+                                  },
+                                  No: {
+                                    text: "No",
+                                    value: "No",
+                                  },
+                                },
+                              })
+                              .then((value) => {
+                                switch (value) {
+                               
+                                  case "Yes":
+                                    swal("Restarting the game");
+                                    gameStart();
+                                    break;
+                               
+                                  case "No":
+                                    swal("See you again");
+                                    break;
+                                }
+                              });
+                            // alert(`Congrats you have completed the game in ${time} time and ${moves} moves`);
+                            // setTimeout(() => {
+                            //     gameStart();
+                            // }, 4000);
                         }
                     }
                     // Remove/hide
