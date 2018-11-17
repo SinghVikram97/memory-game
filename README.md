@@ -19,7 +19,7 @@
    * Created a counter to count the number of moves made by player and timer to know the duration of a play
    * Added effects to cards when they match and are unmatched
    * Create a pop-up modal when player wins game
-
+ 
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
