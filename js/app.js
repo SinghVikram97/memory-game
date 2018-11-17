@@ -6,6 +6,7 @@ let movesSpan = document.getElementById('score');
 let restartBtn = document.getElementById('repeat');
 let totalMatch=0;
 let stars=document.getElementsByClassName('fa-star');
+let startCount=3;
 console.log(stars);
 /*
  * Display the cards on the page
@@ -86,6 +87,7 @@ function clickCards() {
                             stars[i].classList.remove('outline');
                             stars[i].classList.add('fa-inverse');
                         }
+                        startCount--;
                     }
                     else if(moves>50){
                         // Remove 2 stars
@@ -93,6 +95,7 @@ function clickCards() {
                             stars[i].classList.remove('outline');
                             stars[i].classList.add('fa-inverse');
                         }
+                        startCount--;
                     }
                     movesSpan.innerText = moves;
                     // Check if there is a match
@@ -111,7 +114,7 @@ function clickCards() {
                             clearInterval(timerVar);
                             let time=document.getElementById("timer").innerHTML;
                             let timeArray=time.split(':')
-                            swal(`Congrats you finished the game in ${timeArray[0]} hours ${timeArray[1]} minutes ${timeArray[2]} seconds and ${moves} moves \n Do you want to continue`, {
+                            swal(`Congrats you finished the game in ${timeArray[0]} hours ${timeArray[1]} minutes ${timeArray[2]} seconds and ${moves} moves with ${startCount}/3 stars \n Do you want to continue`, {
                                 buttons: {
                                   Yes:{
                                       text:"Yes",
