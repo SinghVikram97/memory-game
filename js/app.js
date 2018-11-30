@@ -6,7 +6,9 @@ let movesSpan = document.getElementById('score');
 let restartBtn = document.getElementById('repeat');
 let totalMatch=0;
 let stars=document.getElementsByClassName('fa-star');
-let startCount=3;
+let starCount=3;
+let minusOne;
+let minusTwo;
 console.log(stars);
 /*
  * Display the cards on the page
@@ -19,6 +21,13 @@ let cardHTML;
 let moves;
 
 function gameStart() {
+    // Add all starts
+    for (let i = 0; i < stars.length; i++) {
+        stars[i].classList.add('outline');
+        stars[i].classList.remove('fa-inverse');
+    }
+    minusOne=true;
+    minusTwo=true;
     startTimer();
     shuffle(cardsArray);
     cardHTML = '';
@@ -31,7 +40,10 @@ function gameStart() {
     deck.innerHTML = cardHTML;
     clickCards();
 }
-gameStart();
+$(document).ready(()=>{
+    gameStart();
+})
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length,
@@ -81,21 +93,23 @@ function clickCards() {
                 if (openCards.length === 2) {
 
                     moves++;
-                    if(moves>20){
+                    if(moves>20 && moves<50 && minusOne){
                         // Remove a star
                         for (let i = 2; i < stars.length; i++) {
                             stars[i].classList.remove('outline');
                             stars[i].classList.add('fa-inverse');
                         }
-                        startCount--;
+                        starCount--;
+                        minusOne=false;
                     }
-                    else if(moves>50){
+                    else if(moves>=50 && minusTwo){
                         // Remove 2 stars
                         for(let i=1;i<stars.length;i++){
                             stars[i].classList.remove('outline');
                             stars[i].classList.add('fa-inverse');
                         }
-                        startCount--;
+                        starCount--;
+                        minusTwo=false;
                     }
                     movesSpan.innerText = moves;
                     // Check if there is a match
@@ -114,7 +128,8 @@ function clickCards() {
                             clearInterval(timerVar);
                             let time=document.getElementById("timer").innerHTML;
                             let timeArray=time.split(':')
-                            swal(`Congrats you finished the game in ${timeArray[0]} hours ${timeArray[1]} minutes ${timeArray[2]} seconds and ${moves} moves with ${startCount}/3 stars \n Do you want to continue`, {
+                            console.log(starCount);
+                            swal(`Congrats you finished the game in ${timeArray[0]} hours ${timeArray[1]} minutes ${timeArray[2]} seconds and ${moves} moves with ${starCount}/3 stars \n Do you want to continue`, {
                                 buttons: {
                                   Yes:{
                                       text:"Yes",
